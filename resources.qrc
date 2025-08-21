@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>mole.png</file>
+    </qresource>
+</RCC>
