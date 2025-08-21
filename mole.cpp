@@ -11,6 +11,8 @@ Mole::Mole(const QPixmap &pixmap, QObject *parent)
     m_scaleFactor = 1.0;
     setTransformOriginPoint(boundingRect().center());
 
+    setZValue(0);
+
     m_scaleAnimation = new QPropertyAnimation(this, "scaleFactor", this);
     m_scaleAnimation->setDuration(1500);
     m_scaleAnimation->setStartValue(0.7);
@@ -29,11 +31,11 @@ Mole::Mole(const QPixmap &pixmap, QObject *parent)
     connect(m_animationGroup, &QParallelAnimationGroup::finished,
             this, &Mole::animationFinished);
 }
+
 qreal Mole::scaleFactor() const
 {
     return m_scaleFactor;
 }
-
 void Mole::setScaleFactor(qreal newScaleFactor)
 {
     if (qFuzzyCompare(m_scaleFactor, newScaleFactor))
@@ -42,12 +44,10 @@ void Mole::setScaleFactor(qreal newScaleFactor)
     this->setScale(m_scaleFactor);
     emit scaleFactorChanged();
 }
-
 qreal Mole::yPos() const
 {
     return m_yPos;
 }
-
 void Mole::setYPos(qreal newYPos)
 {
     if (qFuzzyCompare(m_yPos, newYPos))
@@ -57,7 +57,6 @@ void Mole::setYPos(qreal newYPos)
     this->setPos(this->x(), m_yPos);
     emit yPosChanged();
 }
-
 void Mole::startAnimation()
 {
     // Устанавливаем параметры анимации движения
@@ -67,7 +66,6 @@ void Mole::startAnimation()
 
     m_animationGroup->start();
 }
-
 void Mole::stopAnimation()
 {
     m_animationGroup->stop();
@@ -75,10 +73,17 @@ void Mole::stopAnimation()
     setScaleFactor(1.0);
     setYPos(m_originalY);
 }
-
-// Новый метод для установки исходной позиции
 void Mole::setOriginalY(qreal y)
 {
     m_originalY = y;
     m_yPos = y;
+}
+void Mole::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    Q_UNUSED(event);
+    emit moleHit();   // отправляем сигнал
+    if (scene()) {
+        scene()->removeItem(this);
+    }
+    delete this;      // уничтожаем крота
 }

@@ -11,7 +11,6 @@ class Mole: public QObject, public QGraphicsPixmapItem
     Q_OBJECT
 
     Q_PROPERTY(qreal scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
-    // Второе свойство для анимации позиции Y
     Q_PROPERTY(qreal yPos READ yPos WRITE setYPos NOTIFY yPosChanged)
 public:
    explicit Mole(const QPixmap &pixmap, QObject *parent = nullptr);
@@ -30,6 +29,10 @@ signals:
     void scaleFactorChanged();
     void yPosChanged();
     void animationFinished();
+    void moleHit();
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
 
 private:
     QPropertyAnimation *m_scaleAnimation;

@@ -1,37 +1,58 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QGraphicsScene>
-#include "mole.h"
 #include <QPixmap>
 #include <QRandomGenerator>
 #include <QTimer>
 #include <QDebug>
 
+#include "mole.h"
+
+
+qreal SCENE_W = 200.0; // ширина
+qreal SCENE_H = 150.0; // высота
+qreal SCENE_X = -SCENE_W / 2.0;
+qreal SCENE_Y = -SCENE_H / 2.0;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_scene(new QGraphicsScene(this))
+    , spawnTimer(new QTimer(this))
 {
     ui->setupUi(this);
-    //resizeEvent(nullptr);
 
-    m_scene = new QGraphicsScene(this);
-    m_scene->setSceneRect(-100, -75, 200, 150);
-//m_scene->setSceneRect(-1200, -900, 2400, 1800);
+
+    m_scene->setSceneRect(SCENE_X, SCENE_Y, SCENE_W , SCENE_H);
+    // QPixmap backgroundPixmap(":/images/fon.png");
+    QColor customColor(0, 100, 0, 255);
+    m_scene->setBackgroundBrush(QBrush(customColor));
 
     ui->graphicsView->setScene(m_scene);
-    ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+    //ui->graphicsView->setRenderHint(QPainter::Antialiasing);
     ui->graphicsView->setRenderHint(QPainter::SmoothPixmapTransform);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->graphicsView->fitInView(ui->graphicsView->scene()->sceneRect(),Qt::KeepAspectRatio);
 
 
-updateViewScale();
-    spawnTimer = new QTimer(this);
-    connect(spawnTimer, &QTimer::timeout, this, &MainWindow::spawnMole);
-    spawnTimer->start(2000); // Запускаем таймер: новый крот каждые 2 секунды
+    QVector<QPointF> holePositions = {
+        {-1000, -750}, {0, -750}, {1000, -750},
+        {-1000, 750},  {0, 750},  {1000, 750}
+    };
+    for (const QPointF &pos : holePositions) {
+        auto *hole = m_scene->addPixmap(QPixmap(":/images/newhole.png"));
+        QRectF rect = hole->boundingRect();
+        hole->setScale(2);
+        hole->setPos(pos.x() - rect.width()/2, pos.y() - rect.height()/2);
+        hole->setZValue(1);
+    }
 
-    // 5. Сразу создаем первого крота
-    spawnMole();
+    // connect(spawnTimer, &QTimer::timeout, this, &MainWindow::spawnMole);
+    // spawnTimer->start(2000); // Запускаем таймер: новый крот каждые 2 секунды
+
+    // // 5. Сразу создаем первого крота
+    // spawnMole();
+
 }
 
 void MainWindow::spawnMole()
@@ -65,7 +86,7 @@ void MainWindow::spawnMole()
 
     qDebug() << "Spawning mole at:" << spawnPos << "Scene rect:" << m_scene->sceneRect();
     // Остальная логика создания крота остается такой же...
-    QPixmap molePixmap(":/images/mole.png");
+    QPixmap molePixmap(":/images/mole12.png");
     Mole* newMole = new Mole(molePixmap);
 
     QRectF moleRect = newMole->boundingRect();
@@ -76,6 +97,7 @@ void MainWindow::spawnMole()
     m_scene->addItem(newMole);
     newMole->startAnimation();
 
+    connect(newMole, &Mole::moleHit, this, &MainWindow::handleMoleHit);
     // Автоудаление через 3 секунды
     connect(newMole, &Mole::animationFinished, this, [newMole, this]() {
         QTimer::singleShot(100, this, [newMole, this]() { // небольшая задержка
@@ -87,26 +109,30 @@ void MainWindow::spawnMole()
     });
 }
 
-void MainWindow::updateViewScale()
-{
-    QRect viewGeometry = ui->graphicsView->geometry();
-    QRectF sceneRect = m_scene->sceneRect();
-
-    qreal scaleX = viewGeometry.width() / sceneRect.width();
-    qreal scaleY = viewGeometry.height() / sceneRect.height();
-    qreal scale = qMin(scaleX, scaleY);
-
-    QTransform transform;
-    transform.scale(scale, scale);
-    ui->graphicsView->setTransform(transform);
-    ui->graphicsView->centerOn(0, 0);
-}
-void MainWindow::resizeEvent(QResizeEvent *event)
-{
-   QMainWindow::resizeEvent(event);
-  updateViewScale(); // Масштабируем БЕЗ сброса позиций
-}
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_newgame_triggered()
+{
+    connect(spawnTimer, &QTimer::timeout, this, &MainWindow::spawnMole);
+    spawnTimer->start(2000); // Запускаем таймер: новый крот каждые 2 секунды
+
+    // 5. Сразу создаем первого крота
+    spawnMole();
+}
+void MainWindow::on_exit_triggered()
+{
+    MainWindow::close();
+}
+void MainWindow::on_stop_triggered()
+{
+    if (spawnTimer && spawnTimer->isActive()) {
+        spawnTimer->stop();   // останавливаем таймер появления кротов
+    }
+}
+void MainWindow::handleMoleHit() {
+    score++;
+    qDebug() << "Счёт: " << score;
 }

@@ -22,13 +22,24 @@ public:
 private slots:
     void spawnMole();
 
+    void handleMoleHit();
+
+
+
+    void on_newgame_triggered();
+
+    void on_exit_triggered();
+
+    void on_stop_triggered();
+
 protected:
-    void resizeEvent(QResizeEvent *event);
+   // void resizeEvent(QResizeEvent *event) override;
 
 private:
     Ui::MainWindow *ui;
- void updateViewScale();
     QGraphicsScene* m_scene;
     QTimer* spawnTimer;
+    int score = 0;
+   // void updateViewFit();
 };
 #endif // MAINWINDOW_H
