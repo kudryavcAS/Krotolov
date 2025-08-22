@@ -3,6 +3,7 @@
 #include <QGraphicsScene>
 #include <QPixmap>
 #include <QRandomGenerator>
+#include <QGraphicsTextItem>
 #include <QTimer>
 #include <QDebug>
 
@@ -34,13 +35,40 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->fitInView(ui->graphicsView->scene()->sceneRect(),Qt::KeepAspectRatio);
 
+    scoreText = m_scene->addText("Счёт: 0");
+    scoreText->setDefaultTextColor(Qt::white);
+    scoreText->setScale(12); // увеличить текст
+    scoreText->setZValue(3); // поверх всего
+    scoreText->setPos(-2000, -2000);
 
+    recordText = m_scene->addText(QString("Рекорд: %1 в минуту").arg(record));
+    recordText->setDefaultTextColor(Qt::white);
+    recordText->setScale(12); // увеличить текст
+    recordText->setZValue(3); // поверх всего
+    recordText->setPos(0, -2000);
+
+    timeText = m_scene->addText("Время: 0");
+    timeText->setDefaultTextColor(Qt::white);
+    timeText->setScale(12);
+    timeText->setZValue(3);
+    timeText->setPos(-2000, -1800);
+
+    updateTimer = new QTimer(this);
+    connect(updateTimer, &QTimer::timeout, this, [this]() {
+        second++;
+        timeText->setPlainText(QString("Время: %1 сек").arg(second));
+
+        if (second >= 60) {
+            on_stop_triggered();  // завершаем игру
+            qDebug() << "Игра завершена: время вышло!";
+        }
+    });
     QVector<QPointF> holePositions = {
         {-1000, -750}, {0, -750}, {1000, -750},
         {-1000, 750},  {0, 750},  {1000, 750}
     };
     for (const QPointF &pos : holePositions) {
-        auto *hole = m_scene->addPixmap(QPixmap(":/images/newhole.png"));
+        auto *hole = m_scene->addPixmap(QPixmap(":/images/nnhole.png"));
         QRectF rect = hole->boundingRect();
         hole->setScale(2);
         hole->setPos(pos.x() - rect.width()/2, pos.y() - rect.height()/2);
@@ -116,10 +144,29 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_newgame_triggered()
 {
-    connect(spawnTimer, &QTimer::timeout, this, &MainWindow::spawnMole);
-    spawnTimer->start(2000); // Запускаем таймер: новый крот каждые 2 секунды
+    second =0;
+    score = 0;
 
-    // 5. Сразу создаем первого крота
+    disconnect(spawnTimer, nullptr, this, nullptr);
+    connect(spawnTimer, &QTimer::timeout, this, &MainWindow::spawnMole);
+
+    timeText->setPlainText("Время: 0");
+    timer.restart();
+    updateTimer->start(1000);
+
+    scoreText->setPlainText(QString("Счёт: %1").arg(score));
+    recordText->setPlainText(QString("Рекорд: %1 в минуту").arg(record));
+
+    if (currentText && m_scene->items().contains(currentText)) {
+        m_scene->removeItem(currentText);
+        delete currentText;
+        currentText = nullptr;
+    }
+
+    spawnTimer->start(2000); // Запускаем таймер: новый крот каждые 2 секунды
+    updateTimer->start(1000);
+
+
     spawnMole();
 }
 void MainWindow::on_exit_triggered()
@@ -128,11 +175,24 @@ void MainWindow::on_exit_triggered()
 }
 void MainWindow::on_stop_triggered()
 {
+    if (record < score){
+        record = score;
+    }
+    if (updateTimer && updateTimer->isActive()) {
+        updateTimer->stop();
+    }
     if (spawnTimer && spawnTimer->isActive()) {
         spawnTimer->stop();   // останавливаем таймер появления кротов
     }
+    currentText = m_scene->addText(QString("Результат: %1 в минуту").arg(score));
+    currentText->setDefaultTextColor(Qt::white);
+    currentText->setScale(12); // увеличить текст
+    currentText->setZValue(3); // поверх всего
+    currentText->setPos(0, -1800);
+
 }
 void MainWindow::handleMoleHit() {
     score++;
+    scoreText->setPlainText(QString("Счёт: %1").arg(score));
     qDebug() << "Счёт: " << score;
 }

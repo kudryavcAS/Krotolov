@@ -112,12 +112,10 @@ release/qrc_resources.cpp: ../../resources.qrc \
 		C:/Qt/6.8.2/mingw_64/bin/rcc.exe \
 		../../mole12.png \
 		../../fon.png \
-		../../mole1.png \
-		../../hole1.png \
-		../../mole13.png \
 		../../mole.png \
 		../../hole2.png \
-		../../newhole.png
+		../../newhole.png \
+		../../nnhole.png
 	C:\Qt\6.8.2\mingw_64\bin\rcc.exe -name resources --no-zstd ..\..\resources.qrc -o release\qrc_resources.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h

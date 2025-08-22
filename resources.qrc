@@ -1,12 +1,10 @@
 <RCC>
     <qresource prefix="/images">
         <file>mole.png</file>
-        <file>hole1.png</file>
         <file>hole2.png</file>
-        <file>mole1.png</file>
         <file>newhole.png</file>
         <file>fon.png</file>
         <file>mole12.png</file>
-        <file>mole13.png</file>
+        <file>nnhole.png</file>
     </qresource>
 </RCC>
