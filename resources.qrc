@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>fon.png</file>
+        <file>mole12.png</file>
+        <file>nnhole.png</file>
+        <file>lopata.png</file>
+        <file>pavil.png</file>
+        <file>wc.png</file>
+        <file>dom.png</file>
+        <file>forest.png</file>
+    </qresource>
+    <qresource prefix="/music">
+        <file>nalito.mp3</file>
+    </qresource>
+</RCC>
