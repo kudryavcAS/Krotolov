@@ -1,6 +1,0 @@
-build/
-*.pro.user
-*.pro.user.*
-Makefile
-*.o
-*.a

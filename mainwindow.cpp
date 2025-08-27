@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     myView = new MyView(this);
     myView->setScene(m_scene);
-    //myView->setCursor(Qt::BlankCursor);
+    myView->setCursor(Qt::BlankCursor);
     ui->verticalLayout->addWidget(myView);
 
     myView->setRenderHint(QPainter::SmoothPixmapTransform);
