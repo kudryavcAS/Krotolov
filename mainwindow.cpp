@@ -20,7 +20,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_scene(new QGraphicsScene(this))
-    , spawnTimer(new QTimer(this)),player(new QMediaPlayer(this)), audio(new QAudioOutput(this))
+    , spawnTimer(new QTimer(this))
+    , wplayer(new QMediaPlayer(this))
+    , waudio(new QAudioOutput(this))
+    , splayer(new QMediaPlayer(this))
+    , saudio(new QAudioOutput(this))
 {
     ui->setupUi(this);
 
@@ -45,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(myView, &MyView::mouseMoved, this, [this](const QPoint &pos){
         if (lopata) {
+
             QPointF scenePos = myView->mapToScene(pos);
             QRectF rect = lopata->boundingRect();
             lopata->setPos(scenePos.x() - 175,
@@ -73,9 +78,13 @@ MainWindow::MainWindow(QWidget *parent)
     timeText->setZValue(3);
     timeText->setPos(-2000, -1800);
 
-    player->setAudioOutput(audio);
-    player->setSource(QUrl("qrc:/music/nalito.mp3"));
-    audio->setVolume(0.5);
+    wplayer->setAudioOutput(waudio);
+    wplayer->setSource(QUrl("qrc:/music/nalito.mp3"));
+    waudio->setVolume(0.5);
+
+    splayer->setAudioOutput(saudio);
+    splayer->setSource(QUrl("qrc:/music/strike.mp3"));
+    saudio->setVolume(0.5);
 
     QGraphicsPixmapItem *house = m_scene->addPixmap(QPixmap(":/images/dom.png"));
     house->setScale(0.3);
@@ -177,7 +186,7 @@ void MainWindow::on_newgame_triggered()
     second =0;
     score = 0;
 
-    player->stop();
+    wplayer->stop();
 
     disconnect(spawnTimer, nullptr, this, nullptr);
     connect(spawnTimer, &QTimer::timeout, this, &MainWindow::spawnMole);
@@ -233,7 +242,7 @@ void MainWindow::on_stop_triggered()
 
 
         // запускаем проигрывание
-        player->play();
+        wplayer->play();
 
     }
     if (updateTimer && updateTimer->isActive()) {
@@ -250,8 +259,10 @@ void MainWindow::on_stop_triggered()
 
 }
 void MainWindow::handleMoleHit() {
+    splayer->play();
     score++;
     scoreText->setPlainText(QString("Счёт: %1").arg(score));
+
 }
 
 
@@ -266,4 +277,3 @@ void MainWindow::on_rules_triggered()
 
     QMessageBox::information(this, "Правила игры", rulesText);
 }
-

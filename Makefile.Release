@@ -114,6 +114,7 @@ compiler_rcc_clean:
 release/qrc_resources.cpp: resources.qrc \
 		../../../Qt/6.8.2/mingw_64/bin/rcc.exe \
 		nalito.mp3 \
+		strike.mp3 \
 		wc.png \
 		lopata.png \
 		pavil.png \
@@ -1162,6 +1163,22 @@ release/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qgraphicsscene.h \
 		../../../Qt/6.8.2/mingw_64/include/QtGui/QMouseEvent \
 		ui_mainwindow.h \
+		../../../Qt/6.8.2/mingw_64/include/QtCore/QVariant \
+		../../../Qt/6.8.2/mingw_64/include/QtGui/QAction \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/QApplication \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qapplication.h \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/QMenu \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qmenu.h \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/QMenuBar \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qmenubar.h \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/QStatusBar \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qstatusbar.h \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/QVBoxLayout \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qlayout.h \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/6.8.2/mingw_64/include/QtWidgets/QWidget \
 		../../../Qt/6.8.2/mingw_64/include/QtWidgets/QGraphicsScene \
 		../../../Qt/6.8.2/mingw_64/include/QtGui/QPixmap \
 		../../../Qt/6.8.2/mingw_64/include/QtCore/QRandomGenerator \

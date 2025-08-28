@@ -42,19 +42,27 @@ private:
     QGraphicsScene* m_scene;
     QTimer* spawnTimer;
     QTimer *updateTimer;
+
     int score = 0;
     int record = 0;
     int second = 0;
+
     QGraphicsPixmapItem *lopata = nullptr;
     MyView *myView;
+
     QGraphicsTextItem *scoreText;
     QGraphicsTextItem *recordText;
     QGraphicsTextItem *timeText;
     QGraphicsTextItem *currentText;
     QGraphicsTextItem *winText;
+
     QElapsedTimer timer;
-    QMediaPlayer *player;
-    QAudioOutput *audio;
+
+    QMediaPlayer *wplayer;
+    QAudioOutput *waudio;
+    QMediaPlayer *splayer;
+    QAudioOutput *saudio;
+
 
 
 };

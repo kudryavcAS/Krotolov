@@ -5,6 +5,8 @@
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
 #include <QParallelAnimationGroup>
+#include <QtMultimedia/QMediaPlayer>
+#include <QtMultimedia/QAudioOutput>
 
 class Mole: public QObject, public QGraphicsPixmapItem
 {
@@ -25,8 +27,6 @@ public:
     void startAnimation();
     void stopAnimation();
 
-public slots:
-    //void makeFaster();
 signals:
     void scaleFactorChanged();
     void yPosChanged();
@@ -35,7 +35,7 @@ signals:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
-
+ QPainterPath shape() const override;
 private:
     QPropertyAnimation *m_scaleAnimation;
     QPropertyAnimation *m_yAnimation;
@@ -44,6 +44,7 @@ private:
     qreal m_scaleFactor;
     qreal m_yPos;
     qreal m_originalY;
+
 };
 
 #endif // MOLE_H

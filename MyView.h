@@ -20,6 +20,6 @@ protected:
         emit mouseMoved(event->pos());
         QGraphicsView::mouseMoveEvent(event);
     }
-};
 
+};
 #endif // MYVIEW_H

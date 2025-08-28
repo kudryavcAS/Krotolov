@@ -2,14 +2,16 @@
 #include <QGraphicsScene>
 
 Mole::Mole(const QPixmap &pixmap, QObject *parent)
-    : QObject(parent), QGraphicsPixmapItem(pixmap)
+    : QObject(parent)
+    , QGraphicsPixmapItem(pixmap)
+
 {
     m_originalY = 0;
     m_yPos = m_originalY;
 
     m_scaleFactor = 1.0;
     setTransformOriginPoint(boundingRect().center());
-
+    setFlag(QGraphicsItem::ItemIsSelectable);
     setZValue(0);
 
     m_scaleAnimation = new QPropertyAnimation(this, "scaleFactor", this);
@@ -25,7 +27,6 @@ Mole::Mole(const QPixmap &pixmap, QObject *parent)
     m_animationGroup = new QParallelAnimationGroup(this);
     m_animationGroup->addAnimation(m_scaleAnimation);
     m_animationGroup->addAnimation(m_yAnimation);
-
 
     connect(m_animationGroup, &QParallelAnimationGroup::finished, this, [this]() {
         if (scene()) {
@@ -85,6 +86,24 @@ void Mole::mousePressEvent(QGraphicsSceneMouseEvent *event)
     if (scene()) {
         scene()->removeItem(this);
     }
+
     delete this;
+
 }
 
+QPainterPath Mole::shape() const
+{
+    QPainterPath path;
+    QRectF rect = boundingRect();
+
+    // увеличиваем хитбокс в 1.5 раза
+    QRectF biggerRect = rect.adjusted(
+        -rect.width() * 0.25,
+        -rect.height() * 0.25,
+        rect.width() * 0.25,
+        rect.height() * 0.25
+        );
+
+    path.addRect(biggerRect);
+    return path;
+}

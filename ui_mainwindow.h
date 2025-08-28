@@ -90,9 +90,18 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\320\232\321\200\320\276\321\202\320\276\320\273\320\276\320\262", nullptr));
         newgame->setText(QCoreApplication::translate("MainWindow", "\320\235\320\276\320\262\320\260\321\217 \320\270\320\263\321\200\320\260", nullptr));
+#if QT_CONFIG(shortcut)
+        newgame->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+N", nullptr));
+#endif // QT_CONFIG(shortcut)
         stop->setText(QCoreApplication::translate("MainWindow", "\320\227\320\260\320\262\320\265\321\200\321\210\320\270\321\202\321\214 \320\270\320\263\321\200\321\203", nullptr));
+#if QT_CONFIG(shortcut)
+        stop->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+C", nullptr));
+#endif // QT_CONFIG(shortcut)
         rules->setText(QCoreApplication::translate("MainWindow", "\320\237\321\200\320\260\320\262\320\270\320\273\320\260 \320\270\320\263\321\200\321\213", nullptr));
         exit->setText(QCoreApplication::translate("MainWindow", "\320\222\321\213\320\271\321\202\320\270", nullptr));
+#if QT_CONFIG(shortcut)
+        exit->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Q", nullptr));
+#endif // QT_CONFIG(shortcut)
         menu->setTitle(QCoreApplication::translate("MainWindow", "\320\230\320\263\321\200\320\260", nullptr));
         menu_2->setTitle(QCoreApplication::translate("MainWindow", "\320\241\320\277\321\200\320\260\320\262\320\272\320\260", nullptr));
     } // retranslateUi
