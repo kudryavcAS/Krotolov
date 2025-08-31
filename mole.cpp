@@ -6,29 +6,29 @@ Mole::Mole(const QPixmap &pixmap, QObject *parent)
     , QGraphicsPixmapItem(pixmap)
 
 {
-    m_originalY = 0;
-    m_yPos = m_originalY;
+    originalY = 0;
+    yPos = originalY;
 
-    m_scaleFactor = 1.0;
+    scaleFactor = 1.0;
     setTransformOriginPoint(boundingRect().center());
     setFlag(QGraphicsItem::ItemIsSelectable);
     setZValue(0);
 
-    m_scaleAnimation = new QPropertyAnimation(this, "scaleFactor", this);
-    m_scaleAnimation->setDuration(750);
-    m_scaleAnimation->setStartValue(0.7);
-    m_scaleAnimation->setEndValue(1.3);
-    m_scaleAnimation->setEasingCurve(QEasingCurve::InOutSine);
+    scaleAnimation = new QPropertyAnimation(this, "scaleFactor", this);
+    scaleAnimation->setDuration(750);
+    scaleAnimation->setStartValue(0.7);
+    scaleAnimation->setEndValue(1.3);
+    scaleAnimation->setEasingCurve(QEasingCurve::InOutSine);
 
-    m_yAnimation = new QPropertyAnimation(this, "yPos", this);
-    m_yAnimation->setDuration(750);
-    m_yAnimation->setEasingCurve(QEasingCurve::InOutSine);
+    yAnimation = new QPropertyAnimation(this, "yPos", this);
+    yAnimation->setDuration(750);
+    yAnimation->setEasingCurve(QEasingCurve::InOutSine);
 
-    m_animationGroup = new QParallelAnimationGroup(this);
-    m_animationGroup->addAnimation(m_scaleAnimation);
-    m_animationGroup->addAnimation(m_yAnimation);
+    animationGroup = new QParallelAnimationGroup(this);
+    animationGroup->addAnimation(scaleAnimation);
+    animationGroup->addAnimation(yAnimation);
 
-    connect(m_animationGroup, &QParallelAnimationGroup::finished, this, [this]() {
+    connect(animationGroup, &QParallelAnimationGroup::finished, this, [this]() {
         if (scene()) {
             scene()->removeItem(this);
         }
@@ -36,48 +36,48 @@ Mole::Mole(const QPixmap &pixmap, QObject *parent)
     });
 }
 
-qreal Mole::scaleFactor() const
+double Mole::getScaleFactor() const
 {
-    return m_scaleFactor;
+    return scaleFactor;
 }
-void Mole::setScaleFactor(qreal newScaleFactor)
+void Mole::setScaleFactor(double newScaleFactor)
 {
-    if (qFuzzyCompare(m_scaleFactor, newScaleFactor))
+    if (qFuzzyCompare(scaleFactor, newScaleFactor))
         return;
-    m_scaleFactor = newScaleFactor;
-    this->setScale(m_scaleFactor);
+    scaleFactor = newScaleFactor;
+    this->setScale(scaleFactor);
     emit scaleFactorChanged();
 }
-qreal Mole::yPos() const
+double Mole::getYPos() const
 {
-    return m_yPos;
+    return yPos;
 }
-void Mole::setYPos(qreal newYPos)
+void Mole::setYPos(double newYPos)
 {
-    if (qFuzzyCompare(m_yPos, newYPos))
+    if (qFuzzyCompare(yPos, newYPos))
         return;
-    m_yPos = newYPos;
-    this->setPos(this->x(), m_yPos);
+    yPos = newYPos;
+    this->setPos(this->x(), yPos);
     emit yPosChanged();
 }
 void Mole::startAnimation()
 {
-    m_yAnimation->setStartValue(m_originalY);
-    m_yAnimation->setEndValue(m_originalY - 200);
+    yAnimation->setStartValue(originalY);
+    yAnimation->setEndValue(originalY - 200);
 
-    m_animationGroup->start();
+    animationGroup->start();
 }
 void Mole::stopAnimation()
 {
-    m_animationGroup->stop();
+    animationGroup->stop();
 
     setScaleFactor(1.0);
-    setYPos(m_originalY);
+    setYPos(originalY);
 }
-void Mole::setOriginalY(qreal y)
+void Mole::setOriginalY(double y)
 {
-    m_originalY = y;
-    m_yPos = y;
+    originalY = y;
+    yPos = y;
 }
 void Mole::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -96,7 +96,6 @@ QPainterPath Mole::shape() const
     QPainterPath path;
     QRectF rect = boundingRect();
 
-    // увеличиваем хитбокс в 1.5 раза
     QRectF biggerRect = rect.adjusted(
         -rect.width() * 0.25,
         -rect.height() * 0.25,

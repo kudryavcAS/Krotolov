@@ -12,17 +12,17 @@ class Mole: public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(qreal scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
-    Q_PROPERTY(qreal yPos READ yPos WRITE setYPos NOTIFY yPosChanged)
+    Q_PROPERTY(double scaleFactor READ getScaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
+    Q_PROPERTY(double yPos READ getYPos WRITE setYPos NOTIFY yPosChanged)
 public:
    explicit Mole(const QPixmap &pixmap, QObject *parent = nullptr);
 
-    qreal scaleFactor() const;
-    void setScaleFactor(qreal newScaleFactor);
+    double getScaleFactor() const;
+    void setScaleFactor(double newScaleFactor);
 
-    qreal yPos() const;
-    void setYPos(qreal newYPos);
-    void setOriginalY(qreal);
+    double getYPos() const;
+    void setYPos(double newYPos);
+    void setOriginalY(double);
 
     void startAnimation();
     void stopAnimation();
@@ -35,15 +35,15 @@ signals:
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
- QPainterPath shape() const override;
+    QPainterPath shape() const override;
 private:
-    QPropertyAnimation *m_scaleAnimation;
-    QPropertyAnimation *m_yAnimation;
-    QParallelAnimationGroup *m_animationGroup;
+    QPropertyAnimation *scaleAnimation;
+    QPropertyAnimation *yAnimation;
+    QParallelAnimationGroup *animationGroup;
 
-    qreal m_scaleFactor;
-    qreal m_yPos;
-    qreal m_originalY;
+    double scaleFactor;
+    double yPos;
+    double originalY;
 
 };
 

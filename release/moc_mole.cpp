@@ -76,8 +76,8 @@ Q_CONSTINIT static const uint qt_meta_data_ZN4MoleE[] = {
     QMetaType::Void,
 
  // properties: name, type, flags, notifyId, revision
-       6, QMetaType::QReal, 0x00015103, uint(0), 0,
-       7, QMetaType::QReal, 0x00015103, uint(1), 0,
+       6, QMetaType::Double, 0x00015103, uint(0), 0,
+       7, QMetaType::Double, 0x00015103, uint(1), 0,
 
        0        // eod
 };
@@ -90,9 +90,9 @@ Q_CONSTINIT const QMetaObject Mole::staticMetaObject = { {
     nullptr,
     qt_incomplete_metaTypeArray<qt_meta_tag_ZN4MoleE_t,
         // property 'scaleFactor'
-        QtPrivate::TypeAndForceComplete<qreal, std::true_type>,
+        QtPrivate::TypeAndForceComplete<double, std::true_type>,
         // property 'yPos'
-        QtPrivate::TypeAndForceComplete<qreal, std::true_type>,
+        QtPrivate::TypeAndForceComplete<double, std::true_type>,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<Mole, std::true_type>,
         // method 'scaleFactorChanged'
@@ -153,16 +153,16 @@ void Mole::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
     if (_c == QMetaObject::ReadProperty) {
         void *_v = _a[0];
         switch (_id) {
-        case 0: *reinterpret_cast< qreal*>(_v) = _t->scaleFactor(); break;
-        case 1: *reinterpret_cast< qreal*>(_v) = _t->yPos(); break;
+        case 0: *reinterpret_cast< double*>(_v) = _t->getScaleFactor(); break;
+        case 1: *reinterpret_cast< double*>(_v) = _t->getYPos(); break;
         default: break;
         }
     }
     if (_c == QMetaObject::WriteProperty) {
         void *_v = _a[0];
         switch (_id) {
-        case 0: _t->setScaleFactor(*reinterpret_cast< qreal*>(_v)); break;
-        case 1: _t->setYPos(*reinterpret_cast< qreal*>(_v)); break;
+        case 0: _t->setScaleFactor(*reinterpret_cast< double*>(_v)); break;
+        case 1: _t->setYPos(*reinterpret_cast< double*>(_v)); break;
         default: break;
         }
     }

@@ -12,14 +12,14 @@
 #include "mole.h"
 
 
-qreal SCENE_W = 200.0; // ширина
-qreal SCENE_H = 150.0; // высота
-qreal SCENE_X = -SCENE_W / 2.0;
-qreal SCENE_Y = -SCENE_H / 2.0;
+double SCENE_W = 200.0;
+double SCENE_H = 150.0;
+double SCENE_X = -SCENE_W / 2.0;
+double SCENE_Y = -SCENE_H / 2.0;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , m_scene(new QGraphicsScene(this))
+    , scene(new QGraphicsScene(this))
     , spawnTimer(new QTimer(this))
     , wplayer(new QMediaPlayer(this))
     , waudio(new QAudioOutput(this))
@@ -30,11 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     QColor customColor(0, 100, 0, 255);
 
-    m_scene->setSceneRect(SCENE_X, SCENE_Y, SCENE_W , SCENE_H);
-    m_scene->setBackgroundBrush(QBrush(customColor));
+    scene->setSceneRect(SCENE_X, SCENE_Y, SCENE_W , SCENE_H);
+    scene->setBackgroundBrush(QBrush(customColor));
 
     myView = new MyView(this);
-    myView->setScene(m_scene);
+    myView->setScene(scene);
     myView->setCursor(Qt::BlankCursor);
     ui->verticalLayout->addWidget(myView);
 
@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     myView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     myView->fitInView(myView->scene()->sceneRect(),Qt::KeepAspectRatio);
 
-    lopata = m_scene->addPixmap(QPixmap(":/images/lopata.png"));
+    lopata = scene->addPixmap(QPixmap(":/images/lopata.png"));
     lopata->setZValue(2);
     lopata->setScale(5);
 
@@ -60,19 +60,19 @@ MainWindow::MainWindow(QWidget *parent)
     myView->setMouseTracking(true);
     this->setMouseTracking(true);
 
-    scoreText = m_scene->addText("Счёт: 0");
+    scoreText = scene->addText("Счёт: 0");
     scoreText->setDefaultTextColor(Qt::white);
     scoreText->setScale(12);
     scoreText->setZValue(3);
     scoreText->setPos(-2000, -2000);
 
-    recordText = m_scene->addText(QString("Рекорд: %1 в минуту").arg(record));
+    recordText = scene->addText(QString("Рекорд: %1 в минуту").arg(record));
     recordText->setDefaultTextColor(Qt::white);
     recordText->setScale(12);
     recordText->setZValue(3);
     recordText->setPos(0, -2000);
 
-    timeText = m_scene->addText("Время: 0");
+    timeText = scene->addText("Время: 0");
     timeText->setDefaultTextColor(Qt::white);
     timeText->setScale(12);
     timeText->setZValue(3);
@@ -86,22 +86,22 @@ MainWindow::MainWindow(QWidget *parent)
     splayer->setSource(QUrl("qrc:/music/strike.mp3"));
     saudio->setVolume(0.5);
 
-    QGraphicsPixmapItem *house = m_scene->addPixmap(QPixmap(":/images/dom.png"));
+    QGraphicsPixmapItem *house = scene->addPixmap(QPixmap(":/images/dom.png"));
     house->setScale(0.3);
     house->setZValue(1);
     house->setPos(-4500, -1800);
 
-    QGraphicsPixmapItem *wc = m_scene->addPixmap(QPixmap(":/images/wc.png"));
+    QGraphicsPixmapItem *wc = scene->addPixmap(QPixmap(":/images/wc.png"));
     wc->setScale(1.5);
     wc->setZValue(1);
     wc->setPos(3700, 1000);
 
-    QGraphicsPixmapItem *pavil = m_scene->addPixmap(QPixmap(":/images/pavil.png"));
+    QGraphicsPixmapItem *pavil = scene->addPixmap(QPixmap(":/images/pavil.png"));
     pavil->setScale(4.0);
     pavil->setZValue(1);
     pavil->setPos(-4500, 900);
 
-    QGraphicsPixmapItem *forest = m_scene->addPixmap(QPixmap(":/images/forest.png"));
+    QGraphicsPixmapItem *forest = scene->addPixmap(QPixmap(":/images/forest.png"));
     forest->setScale(1.0);
     forest->setZValue(1);
     forest->setPos(2700, -2500);
@@ -125,7 +125,7 @@ MainWindow::MainWindow(QWidget *parent)
         {-1800, 850},  {-300, 850},  {1200, 850}
     };
     for (const QPointF &pos : holePositions) {
-        auto *hole = m_scene->addPixmap(QPixmap(":/images/nnhole.png"));
+        auto *hole = scene->addPixmap(QPixmap(":/images/nnhole.png"));
         QRectF rect = hole->boundingRect();
         hole->setScale(2);
         hole->setPos(pos.x() - rect.width()/2, pos.y() - rect.height()/2);
@@ -169,7 +169,7 @@ void MainWindow::spawnMole()
                     spawnPos.y() - moleRect.height()/2);
     newMole->setOriginalY(spawnPos.y() - moleRect.height()/2);
 
-    m_scene->addItem(newMole);
+    scene->addItem(newMole);
     newMole->startAnimation();
 
     connect(newMole, &Mole::moleHit, this, &MainWindow::handleMoleHit);
@@ -198,13 +198,13 @@ void MainWindow::on_newgame_triggered()
     scoreText->setPlainText(QString("Счёт: %1").arg(score));
     recordText->setPlainText(QString("Рекорд: %1 в минуту").arg(record));
 
-    if (currentText && m_scene->items().contains(currentText)) {
-        m_scene->removeItem(currentText);
+    if (currentText && scene->items().contains(currentText)) {
+        scene->removeItem(currentText);
         delete currentText;
         currentText = nullptr;
     }
-    if (winText && m_scene->items().contains(winText)) {
-        m_scene->removeItem(winText);
+    if (winText && scene->items().contains(winText)) {
+        scene->removeItem(winText);
         delete winText;
         winText = nullptr;
     }
@@ -222,26 +222,23 @@ void MainWindow::on_stop_triggered()
         record = score;
     }
 
-    if (currentText && m_scene->items().contains(currentText)) {
-        m_scene->removeItem(currentText);
+    if (currentText && scene->items().contains(currentText)) {
+        scene->removeItem(currentText);
         delete currentText;
         currentText = nullptr;
     }
-    if (winText && m_scene->items().contains(winText)) {
-        m_scene->removeItem(winText);
+    if (winText && scene->items().contains(winText)) {
+        scene->removeItem(winText);
         delete winText;
         winText = nullptr;
     }
 
-    if(score <= 70){
-        winText = m_scene->addText("Вы победили!");
+    if(score >= 60){
+        winText = scene->addText("Вы победили!");
         winText->setDefaultTextColor(Qt::yellow);
         winText->setScale(15);
         winText->setZValue(3);
         winText->setPos(-700, -1500);
-
-
-        // запускаем проигрывание
         wplayer->play();
 
     }
@@ -251,10 +248,10 @@ void MainWindow::on_stop_triggered()
     if (spawnTimer && spawnTimer->isActive()) {
         spawnTimer->stop();
     }
-    currentText = m_scene->addText(QString("Результат: %1 в минуту").arg(score));
+    currentText = scene->addText(QString("Результат: %1 в минуту").arg(score));
     currentText->setDefaultTextColor(Qt::white);
-    currentText->setScale(12); // увеличить текст
-    currentText->setZValue(3); // поверх всего
+    currentText->setScale(12);
+    currentText->setZValue(3);
     currentText->setPos(0, -1800);
 
 }
@@ -272,7 +269,7 @@ void MainWindow::on_rules_triggered()
         "🎮 Игра длится 60 секунд.\n"
         "      Цель - набрать как можно боьше очков,\n      попадая по появляющимя кротам\n"
         "      После 30 секунд скорость появления кротов увеличивается\n"
-        "🎯 Чтобы победить - наберите не меньше 70 очков.\n"
+        "🎯 Чтобы победить - наберите не меньше 60 очков.\n"
         "⚡ Совет: бейте по верхней части лунки - так легче поймать крота\n"    ;
 
     QMessageBox::information(this, "Правила игры", rulesText);

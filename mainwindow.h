@@ -39,7 +39,7 @@ signals:
 
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene* m_scene;
+    QGraphicsScene* scene;
     QTimer* spawnTimer;
     QTimer *updateTimer;
 
