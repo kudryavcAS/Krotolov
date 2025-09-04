@@ -113,7 +113,7 @@ compiler_rcc_clean:
 	-$(DEL_FILE) debug\qrc_resources.cpp
 debug/qrc_resources.cpp: resources.qrc \
 		../../../Qt/6.8.2/mingw_64/bin/rcc.exe \
-		nalito.mp3 \
+		win.mp3 \
 		strike.mp3 \
 		wc.png \
 		lopata.png \
@@ -705,6 +705,16 @@ debug/moc_mole.cpp: mole.h \
 		../../../Qt/6.8.2/mingw_64/include/QtCore/QParallelAnimationGroup \
 		../../../Qt/6.8.2/mingw_64/include/QtCore/qparallelanimationgroup.h \
 		../../../Qt/6.8.2/mingw_64/include/QtCore/qanimationgroup.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/QMediaPlayer \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		../../../Qt/6.8.2/mingw_64/include/QtCore/qurl.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qtaudio.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qaudio.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/QAudioOutput \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		debug/moc_predefs.h \
 		../../../Qt/6.8.2/mingw_64/bin/moc.exe
 	C:\Qt\6.8.2\mingw_64\bin\moc.exe $(DEFINES) --include C:/Y/QT/Krotolov/debug/moc_predefs.h -IC:/Qt/6.8.2/mingw_64/mkspecs/win32-g++ -IC:/Y/QT/Krotolov -IC:/Qt/6.8.2/mingw_64/include -IC:/Qt/6.8.2/mingw_64/include/QtMultimedia -IC:/Qt/6.8.2/mingw_64/include/QtWidgets -IC:/Qt/6.8.2/mingw_64/include/QtGui -IC:/Qt/6.8.2/mingw_64/include/QtNetwork -IC:/Qt/6.8.2/mingw_64/include/QtCore -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++ -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/backward -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include -IC:/Qt/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include-fixed -IC:/Qt/Tools/mingw1310_64/x86_64-w64-mingw32/include mole.h -o debug\moc_mole.cpp
@@ -1358,6 +1368,16 @@ debug/mole.o: mole.cpp mole.h \
 		../../../Qt/6.8.2/mingw_64/include/QtCore/QParallelAnimationGroup \
 		../../../Qt/6.8.2/mingw_64/include/QtCore/qparallelanimationgroup.h \
 		../../../Qt/6.8.2/mingw_64/include/QtCore/qanimationgroup.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/QMediaPlayer \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qmediaplayer.h \
+		../../../Qt/6.8.2/mingw_64/include/QtCore/qurl.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qtaudio.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qaudio.h \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/QAudioOutput \
+		../../../Qt/6.8.2/mingw_64/include/QtMultimedia/qaudiooutput.h \
 		../../../Qt/6.8.2/mingw_64/include/QtWidgets/QGraphicsScene \
 		../../../Qt/6.8.2/mingw_64/include/QtWidgets/qgraphicsscene.h \
 		../../../Qt/6.8.2/mingw_64/include/QtGui/qbrush.h \

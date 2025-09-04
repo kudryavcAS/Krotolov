@@ -10,7 +10,7 @@
         <file>forest.png</file>
     </qresource>
     <qresource prefix="/music">
-        <file>nalito.mp3</file>
+        <file>win.mp3</file>
         <file>strike.mp3</file>
     </qresource>
 </RCC>

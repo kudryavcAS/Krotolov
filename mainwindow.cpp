@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
     timeText->setPos(-2000, -1800);
 
     wplayer->setAudioOutput(waudio);
-    wplayer->setSource(QUrl("qrc:/music/nalito.mp3"));
+    wplayer->setSource(QUrl("qrc:/music/win.mp3"));
     waudio->setVolume(0.5);
 
     splayer->setAudioOutput(saudio);
@@ -196,7 +196,7 @@ void MainWindow::on_newgame_triggered()
     updateTimer->start(1000);
 
     scoreText->setPlainText(QString("Счёт: %1").arg(score));
-    recordText->setPlainText(QString("Рекорд: %1 в минуту").arg(record));
+    recordText->setPlainText(QString("Рекорд: %1 ").arg(record));
 
     if (currentText && scene->items().contains(currentText)) {
         scene->removeItem(currentText);
@@ -233,7 +233,7 @@ void MainWindow::on_stop_triggered()
         winText = nullptr;
     }
 
-    if(score >= 60){
+    if(score >= 65){
         winText = scene->addText("Вы победили!");
         winText->setDefaultTextColor(Qt::yellow);
         winText->setScale(15);
@@ -269,7 +269,7 @@ void MainWindow::on_rules_triggered()
         "🎮 Игра длится 60 секунд.\n"
         "      Цель - набрать как можно боьше очков,\n      попадая по появляющимя кротам\n"
         "      После 30 секунд скорость появления кротов увеличивается\n"
-        "🎯 Чтобы победить - наберите не меньше 60 очков.\n"
+        "🎯 Чтобы победить - наберите не меньше 65 очков.\n"
         "⚡ Совет: бейте по верхней части лунки - так легче поймать крота\n"    ;
 
     QMessageBox::information(this, "Правила игры", rulesText);
